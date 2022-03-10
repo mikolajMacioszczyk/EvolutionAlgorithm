@@ -5,9 +5,25 @@ namespace Lista1.Operators.Mutation
 {
     public class ColumnMutation : IMutationOperator
     {
+        private static Random random = new Random();
+
         public void Mutate(Member member)
         {
-            throw new NotImplementedException();
+            var rowLenght = member.Matrix.GetLength(0);
+            var col1 = random.Next(member.Matrix.GetLength(1));
+            var col2 = random.Next(member.Matrix.GetLength(1));
+            while (col1 == col2)
+            {
+                col2 = random.Next(member.Matrix.GetLength(1));
+            }
+
+            int temp;
+            for (int i = 0; i < rowLenght; i++)
+            {
+                temp = member[i, col1];
+                member[i, col1] = member[i, col2];
+                member[i, col2] = temp;
+            }
         }
     }
 }
