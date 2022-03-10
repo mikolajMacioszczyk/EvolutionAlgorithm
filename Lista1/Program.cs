@@ -1,5 +1,7 @@
 ﻿using Lista1.Interfaces;
+using Lista1.Managers;
 using Lista1.Operators;
+using Lista1.Operators.Mutation;
 
 namespace Lista1
 {
@@ -16,12 +18,20 @@ namespace Lista1
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
         private IReproductionOperator reproductionOperator;
+        private IMutationManager mutationManager;
 
         public Program()
         {
             initializationOperator = new InitializationOperator();
             crossoverOperator = new PermutationCrossoverOperator(machinesCount);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
+
+            mutationManager = new MutationManager();
+            mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
+            mutationManager.RegisterOperator(new RowMutation(), 5); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
+            mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
+            mutationManager.RegisterOperator(new CellMutation(), 1); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new PermutationMutation(), 1); // mutacja permutacyjna
         }
 
         private void Run()
@@ -33,12 +43,7 @@ namespace Lista1
             for (int i = 0; i < rounds; i++)
             {
                 population = reproductionOperator.GenerateChildren(population, subPopulationSize);
-                // krzyżuj
-                // mutuj (może)
-                    // mutacja dwóch komórek
-                    // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
-                    // mutacja dwóch kolumn
-                    // mutacja permutacyjna
+                mutationManager.MutatePopulation(population);
                 // posortuj
                 // wybierz populacje dzieci
                 // wypisz statystyki
