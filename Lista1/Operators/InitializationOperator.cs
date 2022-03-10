@@ -1,17 +1,13 @@
-﻿using Lista1.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lista1.Interfaces;
+using Lista1.Models;
 
 namespace Lista1.Operators
 {
-    public class InitializationOperator
+    public class InitializationOperator : IInitializationOperator
     {
         private static Random Random = new Random();
 
-        public static List<Member> InitializePopulation(int populationSize, int dimX, int dimY, int machinesCount)
+        public List<Member> InitializePopulation(int populationSize, int dimX, int dimY, int machinesCount)
         {
             if (dimX * dimY < machinesCount)
             {
