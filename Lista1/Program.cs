@@ -8,15 +8,20 @@ namespace Lista1
         const int rounds = 100;
 
         const int populationSize = 10;
+        const int subPopulationSize = 26;
         const int dimX = 3;
-        const int dimY = 4;
+        const int dimY = 5;
         const int machinesCount = 9;
 
         private IInitializationOperator initializationOperator;
+        private ICrossoverOperator crossoverOperator;
+        private IReproductionOperator reproductionOperator;
 
         public Program()
         {
             initializationOperator = new InitializationOperator();
+            crossoverOperator = new PermutationCrossoverOperator(machinesCount);
+            reproductionOperator = new RandomReproductionOperator(crossoverOperator);
         }
 
         private void Run()
@@ -27,11 +32,20 @@ namespace Lista1
 
             for (int i = 0; i < rounds; i++)
             {
+                population = reproductionOperator.GenerateChildren(population, subPopulationSize);
                 // krzyżuj
                 // mutuj (może)
+                    // mutacja dwóch komórek
+                    // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
+                    // mutacja dwóch kolumn
+                    // mutacja permutacyjna
                 // posortuj
                 // wybierz populacje dzieci
+                // wypisz statystyki
             }
+
+            // wybierz najlepsze rozwiązanie
+            Console.WriteLine("Done");
 
             Console.ReadLine();
         }
