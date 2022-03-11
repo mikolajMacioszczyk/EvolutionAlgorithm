@@ -31,7 +31,7 @@ namespace Lista1
             mutationManager.RegisterOperator(new RowMutation(), 5); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new CellMutation(), 1); // mutacja dwóch komórek
-            mutationManager.RegisterOperator(new PermutationMutation(), 1); // mutacja permutacyjna
+            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
         }
 
         private void Run()

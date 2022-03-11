@@ -5,9 +5,6 @@ namespace Lista1.Operators.Mutation
 {
     public class NoMutation : IMutationOperator
     {
-        public void Mutate(Member member)
-        {
-            return member;
-        }
+        public void Mutate(Member member){}
     }
 }

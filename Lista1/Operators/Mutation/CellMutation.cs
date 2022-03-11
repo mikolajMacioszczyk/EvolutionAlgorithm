@@ -15,7 +15,7 @@ namespace Lista1.Operators.Mutation
             var cell2Y = random.Next(member.Matrix.GetLength(1));
 
             var temp = member[cell1X, cell1Y];
-            member[cell1X, cell1X] = member[cell2X, cell2Y];
+            member[cell1X, cell1Y] = member[cell2X, cell2Y];
             member[cell2X, cell2Y] = temp;
         }
     }

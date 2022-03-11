@@ -15,7 +15,7 @@ namespace Lista1.Managers
             foreach (var member in members)
             {
                 var choice = _random.Next(summChance);
-                var mutationOperator = mutationOperators.FirstOrDefault(m => m.Item2 < choice).Item1;
+                var mutationOperator = mutationOperators.FirstOrDefault(m => m.Item2 > choice).Item1;
                 if (mutationOperator != null)
                 {
                     mutationOperator.Mutate(member);

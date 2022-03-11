@@ -28,6 +28,7 @@ namespace Lista1.Operators.Mutation
             for (int i = 0; i < permutation.Length - 1; i++)
             {
                 var coordinates = member.GetCoordinatesOfNumber(permutation[i + 1]);
+                
                 member[coordinates.Item1, coordinates.Item2] = permutation[i];
             }
             member[oldCoordinates.Item1, oldCoordinates.Item2] = permutation[permutation.Length - 1];
