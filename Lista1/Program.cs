@@ -79,6 +79,21 @@ namespace Lista1
 
         private Dictionary<int, Dictionary<int, int>> ReadFlowCostData()
         {
+            var root = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
+            var input = Path.Combine(root, "Input");
+            var costJson = Path.Join(input, "cost.json");
+            var flowJson = Path.Join(input, "flow.json");
+
+            if (!File.Exists(costJson))
+            {
+                throw new Exception("File Input/cost.json not exist");
+            }
+            if (!File.Exists(flowJson))
+            {
+                throw new Exception("File Input/flow.json not exist");
+            }
+
+
             return new Dictionary<int, Dictionary<int, int>>()
             {
             };
