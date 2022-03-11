@@ -8,7 +8,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 500;
+        const int rounds = 200;
 
         const int populationSize = 50;
         const int subPopulationSize = 300;
@@ -27,9 +27,11 @@ namespace Lista1
         private IEveluationOperator eveluationOperator;
         private ISelectionOperator selectionOperator;
         private IAnnealingManager annealingManager;
+        private IReportManager reportManager;
 
         public Program()
         {
+            reportManager = new TextFileReportManager();
             annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
@@ -43,14 +45,31 @@ namespace Lista1
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
 
-            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, annealingManager);
+            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
 
         private void Run()
         {
+            var report = new Report() {
+                Rounds = rounds,
+                DimX = dimX,
+                DimY = dimY,
+                CrossWish = crossWish,
+                EliteSize = eliteSize,
+                MachinesCount = machinesCount,
+                MaxTournamentChampions = maxTournamentChampions,
+                PopulationSize = populationSize,
+                SubPopulationSize = subPopulationSize,
+                RoundStats = new List<RoundStats>()
+            };
+
             var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
             Console.WriteLine($"Initialized population with {populationSize} members.");
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
+
+            double bestResult = -1;
+            double worstResult = -1;
+            double averageResult = -1;
 
             for (int i = 0; i < rounds; i++)
             {
@@ -65,13 +84,17 @@ namespace Lista1
                 population = selectionOperator.Select(populationSize, population, i);
 
                 // wypisz statystyki
-                var bestResult = population.Min(eveluationOperator.Evaluate);
-                var worstResult = population.Max(eveluationOperator.Evaluate);
-                var averageResult = population.Average(eveluationOperator.Evaluate);
+                bestResult = population.Min(eveluationOperator.Evaluate);
+                worstResult = population.Max(eveluationOperator.Evaluate);
+                averageResult = population.Average(eveluationOperator.Evaluate);
+
+                report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult });
 
                 Console.WriteLine($"Round {i}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
             }
 
+            report.BestMember = population.FirstOrDefault(m => eveluationOperator.Evaluate(m) == bestResult);
+            reportManager.Save(report);
             Console.WriteLine("Done");
             Console.ReadLine();
         }

@@ -56,5 +56,19 @@
             }
             return true;
         }
+
+        public int[][] ToJaggedMatrix()
+        {
+            var result = new int[Matrix.GetLength(0)][];
+            for (int i = 0; i < Matrix.GetLength(0); i++)
+            {
+                result[i] = new int[Matrix.GetLength(1)];
+                for (int j = 0; j < Matrix.GetLength(1); j++)
+                {
+                    result[i][j] = Matrix[i, j];
+                }
+            }
+            return result;
+        }
     }
 }
