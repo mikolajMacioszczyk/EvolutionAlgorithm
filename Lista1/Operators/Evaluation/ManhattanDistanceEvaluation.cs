@@ -30,24 +30,21 @@ namespace Lista1.Operators
 
             for (int i = 1; i <= _maxValue; i++)
             {
-                for (int j = 1; j <= _maxValue; j++)
+                for (int j = i + 1; j <= _maxValue; j++)
                 {
-                    if (i != j)
-                    {
-                        var iCoords = member.GetCoordinatesOfNumber(i);
+                    var iCoords = member.GetCoordinatesOfNumber(i);
                         
-                        var jCoords = member.GetCoordinatesOfNumber(j);
+                    var jCoords = member.GetCoordinatesOfNumber(j);
 
-                        var totalFlowClost = _costsOfFlow[i][j];
-                        var distance = Math.Abs(iCoords.Item1 - jCoords.Item1) + Math.Abs(iCoords.Item2 - jCoords.Item2);
-                        totalFlowClost *= distance;
+                    var totalFlowClost = _costsOfFlow[i][j];
+                    var distance = Math.Abs(iCoords.Item1 - jCoords.Item1) + Math.Abs(iCoords.Item2 - jCoords.Item2);
+                    totalFlowClost *= distance;
 
-                        sum += totalFlowClost;
-                    }
+                    sum += totalFlowClost;
                 }
             }
 
-            return sum / 2;
+            return sum;
         }
     }
 }

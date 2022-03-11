@@ -8,12 +8,12 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 100;
+        const int rounds = 1000;
 
-        const int populationSize = 10;
-        const int subPopulationSize = 30;
+        const int populationSize = 20;
+        const int subPopulationSize = 60;
         const int dimX = 3;
-        const int dimY = 5;
+        const int dimY = 3;
         const int machinesCount = 9;
 
         const double crossWish = 0.5;
@@ -27,9 +27,10 @@ namespace Lista1
 
         public Program()
         {
+            eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
-            reproductionOperator = new RandomReproductionOperator(crossoverOperator);
+            reproductionOperator = new RandomWithEliteReporoductionOperator(crossoverOperator, eveluationOperator, 0.2);
 
             mutationManager = new MutationManager();
             mutationManager.RegisterOperator(new NoMutation(), 25); // brak mutacji
@@ -38,7 +39,6 @@ namespace Lista1
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
 
-            eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
 
@@ -59,7 +59,7 @@ namespace Lista1
                 population = selectionOperator.Select(populationSize, population);
 
                 // temp
-                var bestResult = population.Max(eveluationOperator.Evaluate);
+                var bestResult = population.Min(eveluationOperator.Evaluate);
                 Console.WriteLine($"Round {i}: best member = {bestResult}");
             }
 
@@ -91,19 +91,11 @@ namespace Lista1
                 }
 
                 result[cost.Source].Add(cost.Dest, cost.Cost);
-
-                if (!result.ContainsKey(cost.Dest))
-                {
-                    result.Add(cost.Dest, new Dictionary<int, int>());
-                }
-
-                result[cost.Dest].Add(cost.Source, cost.Cost);
             }
 
             foreach (var flow in flows)
             {
                 result[flow.Source][flow.Dest] *= flow.Amount;
-                result[flow.Dest][flow.Source] *= flow.Amount;
             }
 
             return result;
