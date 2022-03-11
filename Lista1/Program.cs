@@ -6,7 +6,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 1000;
+        const int rounds = 100;
 
         const int populationSize = 10;
         const int subPopulationSize = 30;
@@ -30,13 +30,13 @@ namespace Lista1
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
-            mutationManager.RegisterOperator(new RowMutation(), 5); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
+            mutationManager.RegisterOperator(new NoMutation(), 25); // brak mutacji
+            mutationManager.RegisterOperator(new CellMutation(), 10); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new RowMutation(), 4); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
-            mutationManager.RegisterOperator(new CellMutation(), 1); // mutacja dwóch komórek
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
 
-            eveluationOperator = new TestEvaluation();
+            eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
 
@@ -75,6 +75,13 @@ namespace Lista1
                     "\"subPopulationSize\" should be divisable by \"populationSize\"");
             }
             new Program().Run();
+        }
+
+        private Dictionary<int, Dictionary<int, int>> ReadFlowCostData()
+        {
+            return new Dictionary<int, Dictionary<int, int>>()
+            {
+            };
         }
     }
 }
