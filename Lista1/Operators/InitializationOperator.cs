@@ -26,7 +26,7 @@ namespace Lista1.Operators
                     while (!located)
                     {
                         var x = Random.Next(0, dimX);
-                        var y = Random.Next(0, dimX);
+                        var y = Random.Next(0, dimY);
 
                         if (member[x, y] <= 0)
                         {

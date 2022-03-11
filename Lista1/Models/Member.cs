@@ -42,5 +42,19 @@
             }
             return (-1, -1);
         }
+
+        // only for test purpose - not efficient
+        public bool IsValid(int maxValue)
+        {
+            for (int i = 1; i < maxValue; i++)
+            {
+                var x = GetCoordinatesOfNumber(i);
+                if (x.Item1 < 0 || x.Item1 >= Matrix.GetLength(0) || x.Item2 < 0 || x.Item2 >= Matrix.GetLength(1))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

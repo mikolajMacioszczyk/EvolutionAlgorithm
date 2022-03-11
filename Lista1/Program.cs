@@ -15,6 +15,8 @@ namespace Lista1
         const int dimY = 5;
         const int machinesCount = 9;
 
+        const double crossWish = 0.5;
+
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
         private IReproductionOperator reproductionOperator;
@@ -23,7 +25,7 @@ namespace Lista1
         public Program()
         {
             initializationOperator = new InitializationOperator();
-            crossoverOperator = new PermutationCrossoverOperator(machinesCount);
+            crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
