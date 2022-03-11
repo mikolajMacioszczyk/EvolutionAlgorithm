@@ -1,16 +1,15 @@
 ﻿using Lista1.Interfaces;
 using Lista1.Managers;
 using Lista1.Operators;
-using Lista1.Operators.Mutation;
 
 namespace Lista1
 {
     public class Program
     {
-        const int rounds = 100;
+        const int rounds = 1000;
 
         const int populationSize = 10;
-        const int subPopulationSize = 26;
+        const int subPopulationSize = 30;
         const int dimX = 3;
         const int dimY = 5;
         const int machinesCount = 9;
@@ -21,6 +20,8 @@ namespace Lista1
         private ICrossoverOperator crossoverOperator;
         private IReproductionOperator reproductionOperator;
         private IMutationManager mutationManager;
+        private IEveluationOperator eveluationOperator;
+        private ISelectionOperator selectionOperator;
 
         public Program()
         {
@@ -34,6 +35,9 @@ namespace Lista1
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new CellMutation(), 1); // mutacja dwóch komórek
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
+
+            eveluationOperator = new TestEvaluation();
+            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
 
         private void Run()
@@ -46,10 +50,16 @@ namespace Lista1
             {
                 population = reproductionOperator.GenerateChildren(population, subPopulationSize);
                 mutationManager.MutatePopulation(population);
-                // posortuj
-                // wybierz populacje dzieci
+
                 // wypisz statystyki
+
+                // todo: Wyzażanie
+                population = selectionOperator.Select(populationSize, population);
             }
+
+            // result
+            var result = population.ToArray();
+            Array.Sort(result, eveluationOperator);
 
             // wybierz najlepsze rozwiązanie
             Console.WriteLine("Done");
