@@ -15,8 +15,15 @@ namespace Lista1.Operators
 
         public List<Member> Select(int count, List<Member> source)
         {
-            // TODO: Handle incorrect values
             // TODO: wyżażanie
+            var rest = source.Count % count;
+            if (rest > 0)
+            {
+                for (int i = 0; i < count - rest; i++)
+                {
+                    source.Add(source[_random.Next(source.Count)].DeepCopy());
+                }
+            }
 
             var result = new List<Member>(count);
 
@@ -32,12 +39,6 @@ namespace Lista1.Operators
                 // get best from tournament
                 result.Add(sourceArray[i]);
             }
-
-            //// rest
-            //Array.Sort(sourceArray, source.Count - restPart, restPart, _evaluationOperator);
-
-            //// get best from tournament
-            //result.Add(sourceArray[source.Count - restPart]);
 
             return result;
         }

@@ -69,6 +69,11 @@ namespace Lista1
 
         static void Main()
         {
+            if (subPopulationSize % populationSize > 0)
+            {
+                Console.WriteLine("inefficiently selected parameters.\n" +
+                    "\"subPopulationSize\" should be divisable by \"populationSize\"");
+            }
             new Program().Run();
         }
     }
