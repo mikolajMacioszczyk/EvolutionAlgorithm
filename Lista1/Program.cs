@@ -18,6 +18,7 @@ namespace Lista1
 
         const double crossWish = 0.3;
         const double eliteSize = 0.05;
+        const int maxTournamentChampions = 3;
 
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
@@ -25,9 +26,11 @@ namespace Lista1
         private IMutationManager mutationManager;
         private IEveluationOperator eveluationOperator;
         private ISelectionOperator selectionOperator;
+        private IAnnealingManager annealingManager;
 
         public Program()
         {
+            annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
@@ -40,7 +43,7 @@ namespace Lista1
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
 
-            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
+            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, annealingManager);
         }
 
         private void Run()
@@ -51,15 +54,17 @@ namespace Lista1
 
             for (int i = 0; i < rounds; i++)
             {
+                // TODO: cross based on relationship
+                // generation
                 population = reproductionOperator.GenerateChildren(population, subPopulationSize);
+                
+                // mutation
                 mutationManager.MutatePopulation(population);
 
+                // selection
+                population = selectionOperator.Select(populationSize, population, i);
+
                 // wypisz statystyki
-
-                // todo: Wyzażanie
-                population = selectionOperator.Select(populationSize, population);
-
-                // temp
                 var bestResult = population.Min(eveluationOperator.Evaluate);
                 var worstResult = population.Max(eveluationOperator.Evaluate);
                 var averageResult = population.Average(eveluationOperator.Evaluate);
