@@ -1,172 +1,182 @@
 ﻿[
   {
     "source": 0,
-    "dest": 3,
-    "amount": 310
+    "dest": 1,
+    "amount": 100
   },
   {
-    "source": 3,
-    "dest": 1,
-    "amount": 180
+    "source": 0,
+    "dest": 2,
+    "amount": 3
   },
   {
     "source": 1,
-    "dest": 5,
-    "amount": 330
+    "dest": 2,
+    "amount": 6
+  },
+  {
+    "source": 0,
+    "dest": 3,
+    "amount": 0
+  },
+  {
+    "source": 1,
+    "dest": 3,
+    "amount": 8
   },
   {
     "source": 2,
-    "dest": 4,
-    "amount": 180
-  },
-  {
-    "source": 4,
-    "dest": 11,
-    "amount": 180
-  },
-  {
-    "source": 11,
-    "dest": 9,
-    "amount": 120
-  },
-  {
-    "source": 1,
     "dest": 3,
-    "amount": 360
-  },
-  {
-    "source": 3,
-    "dest": 11,
-    "amount": 50
-  },
-  {
-    "source": 11,
-    "dest": 5,
-    "amount": 110
-  },
-  {
-    "source": 4,
-    "dest": 7,
-    "amount": 45
-  },
-  {
-    "source": 7,
-    "dest": 9,
-    "amount": 225
-  },
-  {
-    "source": 3,
-    "dest": 5,
-    "amount": 450
+    "amount": 0
   },
   {
     "source": 0,
     "dest": 4,
-    "amount": 90
+    "amount": 6
   },
   {
-    "source": 4,
-    "dest": 8,
-    "amount": 90
-  },
-  {
-    "source": 2,
-    "dest": 6,
-    "amount": 240
-  },
-  {
-    "source": 6,
-    "dest": 9,
-    "amount": 120
-  },
-  {
-    "source": 9,
-    "dest": 3,
-    "amount": 120
-  },
-  {
-    "source": 3,
-    "dest": 7,
-    "amount": 120
+    "source": 1,
+    "dest": 4,
+    "amount": 109
   },
   {
     "source": 2,
-    "dest": 11,
-    "amount": 180
-  },
-  {
-    "source": 11,
-    "dest": 7,
-    "amount": 180
-  },
-  {
-    "source": 5,
-    "dest": 1,
-    "amount": 230
-  },
-  {
-    "source": 10,
-    "dest": 8,
-    "amount": 60
-  },
-  {
-    "source": 8,
-    "dest": 9,
-    "amount": 270
-  },
-  {
-    "source": 9,
-    "dest": 7,
-    "amount": 160
+    "dest": 4,
+    "amount": 0
   },
   {
     "source": 3,
     "dest": 4,
-    "amount": 70
-  },
-  {
-    "source": 4,
-    "dest": 6,
-    "amount": 70
-  },
-  {
-    "source": 6,
-    "dest": 8,
-    "amount": 120
-  },
-  {
-    "source": 2,
-    "dest": 9,
-    "amount": 120
-  },
-  {
-    "source": 9,
-    "dest": 11,
-    "amount": 120
-  },
-  {
-    "source": 11,
-    "dest": 8,
-    "amount": 120
-  },
-  {
-    "source": 8,
-    "dest": 11,
-    "amount": 220
-  },
-  {
-    "source": 4,
-    "dest": 9,
     "amount": 100
   },
   {
-    "source": 7,
-    "dest": 8,
+    "source": 0,
+    "dest": 5,
+    "amount": 35
+  },
+  {
+    "source": 1,
+    "dest": 5,
+    "amount": 78
+  },
+  {
+    "source": 2,
+    "dest": 5,
+    "amount": 17
+  },
+  {
+    "source": 3,
+    "dest": 5,
+    "amount": 1
+  },
+  {
+    "source": 4,
+    "dest": 5,
+    "amount": 1
+  },
+  {
+    "source": 0,
+    "dest": 6,
     "amount": 190
   },
   {
     "source": 1,
+    "dest": 6,
+    "amount": 1
+  },
+  {
+    "source": 2,
+    "dest": 6,
+    "amount": 100
+  },
+  {
+    "source": 3,
+    "dest": 6,
+    "amount": 247
+  },
+  {
+    "source": 4,
+    "dest": 6,
+    "amount": 10
+  },
+  {
+    "source": 5,
+    "dest": 6,
+    "amount": 0
+  },
+  {
+    "source": 0,
     "dest": 7,
-    "amount": 90
+    "amount": 14
+  },
+  {
+    "source": 1,
+    "dest": 7,
+    "amount": 1
+  },
+  {
+    "source": 2,
+    "dest": 7,
+    "amount": 1
+  },
+  {
+    "source": 3,
+    "dest": 7,
+    "amount": 178
+  },
+  {
+    "source": 4,
+    "dest": 7,
+    "amount": 1
+  },
+  {
+    "source": 5,
+    "dest": 7,
+    "amount": 1
+  },
+  {
+    "source": 6,
+    "dest": 7,
+    "amount": 0
+  },
+  {
+    "source": 0,
+    "dest": 8,
+    "amount": 12
+  },
+  {
+    "source": 1,
+    "dest": 8,
+    "amount": 104
+  },
+  {
+    "source": 2,
+    "dest": 8,
+    "amount": 31
+  },
+  {
+    "source": 3,
+    "dest": 8,
+    "amount": 1
+  },
+  {
+    "source": 4,
+    "dest": 8,
+    "amount": 79
+  },
+  {
+    "source": 5,
+    "dest": 8,
+    "amount": 0
+  },
+  {
+    "source": 6,
+    "dest": 8,
+    "amount": 0
+  },
+  {
+    "source": 7,
+    "dest": 8,
+    "amount": 12
   }
 ]
