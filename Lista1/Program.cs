@@ -8,15 +8,16 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 1000;
+        const int rounds = 500;
 
-        const int populationSize = 20;
-        const int subPopulationSize = 60;
-        const int dimX = 3;
-        const int dimY = 3;
-        const int machinesCount = 9;
+        const int populationSize = 50;
+        const int subPopulationSize = 300;
+        const int dimX = 5;
+        const int dimY = 6;
+        const int machinesCount = 24;
 
-        const double crossWish = 0.5;
+        const double crossWish = 0.3;
+        const double eliteSize = 0.05;
 
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
@@ -30,11 +31,11 @@ namespace Lista1
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
-            reproductionOperator = new RandomWithEliteReporoductionOperator(crossoverOperator, eveluationOperator, 0.2);
+            reproductionOperator = new RandomWithEliteReporoductionOperator(crossoverOperator, eveluationOperator, eliteSize);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new NoMutation(), 25); // brak mutacji
-            mutationManager.RegisterOperator(new CellMutation(), 10); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
+            mutationManager.RegisterOperator(new CellMutation(), 20); // mutacja dwóch komórek
             mutationManager.RegisterOperator(new RowMutation(), 4); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
@@ -60,7 +61,10 @@ namespace Lista1
 
                 // temp
                 var bestResult = population.Min(eveluationOperator.Evaluate);
-                Console.WriteLine($"Round {i}: best member = {bestResult}");
+                var worstResult = population.Max(eveluationOperator.Evaluate);
+                var averageResult = population.Average(eveluationOperator.Evaluate);
+
+                Console.WriteLine($"Round {i}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
             }
 
             Console.WriteLine("Done");

@@ -8,6 +8,7 @@ namespace Lista1.Operators
     // czy można od razu pomnożyć koszt z flow?
     // czy koszt przepływu jest w dwie strony czy A -> B != B -> A?
     // jak liczyć odległość?
+    // czy to dobrze że pomijam część możliwości między maszynami?
     public class ManhattanDistanceEvaluation : IEveluationOperator
     {
         private readonly Dictionary<int, Dictionary<int, int>> _costsOfFlow;
@@ -36,11 +37,14 @@ namespace Lista1.Operators
                         
                     var jCoords = member.GetCoordinatesOfNumber(j);
 
-                    var totalFlowClost = _costsOfFlow[i][j];
-                    var distance = Math.Abs(iCoords.Item1 - jCoords.Item1) + Math.Abs(iCoords.Item2 - jCoords.Item2);
-                    totalFlowClost *= distance;
+                    if (_costsOfFlow[i].ContainsKey(j))
+                    {
+                        var totalFlowClost = _costsOfFlow[i][j];
+                        var distance = Math.Abs(iCoords.Item1 - jCoords.Item1) + Math.Abs(iCoords.Item2 - jCoords.Item2);
+                        totalFlowClost *= distance;
 
-                    sum += totalFlowClost;
+                        sum += totalFlowClost;
+                    }
                 }
             }
 
