@@ -36,12 +36,12 @@ namespace Lista1
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
-            reproductionOperator = new RandomWithEliteReporoductionOperator(crossoverOperator, eveluationOperator, eliteSize);
+            reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
             mutationManager.RegisterOperator(new CellMutation(), 20); // mutacja dwóch komórek
-            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 5); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 10); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new NoMutation(), 5); // brak mutacji
             mutationManager.RegisterOperator(new RowMutation(), 2); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 2); // mutacja permutacyjna
@@ -57,12 +57,18 @@ namespace Lista1
 
             for (int i = 0; i < rounds; i++)
             {
-                // TODO: cross based on relationship
+                // select elite
+                var eliteCount = (int)Math.Round(population.Count * eliteSize);
+                var elite = population.OrderBy(m => eveluationOperator.Evaluate(m)).Take(eliteCount).ToList();
+
                 // generation
-                population = reproductionOperator.GenerateChildren(population, subPopulationSize);
+                // TODO: cross based on relationship
+                population = reproductionOperator.GenerateChildren(population, subPopulationSize - eliteCount);
                 
                 // mutation
                 mutationManager.MutatePopulation(population);
+
+                population.AddRange(elite);
 
                 // selection
                 population = selectionOperator.Select(populationSize, population, i);
