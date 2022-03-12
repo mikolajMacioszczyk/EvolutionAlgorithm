@@ -27,8 +27,7 @@ namespace Lista1.Operators
             var topOffset = random.Next(0, _dimX - xLength + 1);
             var leftOffset = random.Next(0, _dimY - yLength + 1);
 
-            // Temp 2
-            switch (random.Next(2))
+            switch (random.Next( 4))
             {
                 case 0:
                     MoveTop(member, xLength, yLength, topOffset, leftOffset);
@@ -37,16 +36,11 @@ namespace Lista1.Operators
                     MoveDown(member, xLength, yLength, topOffset, leftOffset);
                     break;
                 case 2:
-                    // w praw
+                    MoveRight(member, xLength, yLength, topOffset, leftOffset);
                     break;
                 case 3:
-                    // w lewo
+                    MoveLeft(member, xLength, yLength, topOffset, leftOffset);
                     break;
-            }
-
-            if (!member.IsValid(24))
-            {
-
             }
         }
 
@@ -112,6 +106,71 @@ namespace Lista1.Operators
             for (int i = 0; i < yLength; i++)
             {
                 member[topOffset, leftOffset + i] = tempRow[i];
+            }
+        }
+
+        private void MoveRight(Member member, int xLength, int yLength, int topOffset, int leftOffset)
+        {
+            if (leftOffset == 0)
+            {
+                return;
+            }
+
+            int move = random.Next(leftOffset) + 1;
+
+            var tempRow = new int[move, xLength];
+            for (int j = 0; j < move; j++)
+            {
+                for (int i = 0; i < xLength; i++)
+                {
+                    tempRow[j, i] = member[topOffset + i, leftOffset - move + j];
+                }
+            }
+
+            for (int i = topOffset; i < topOffset + xLength; i++)
+            {
+                for (int j = leftOffset; j < leftOffset + yLength; j++)
+                {
+                    member[i, j - move] = member[i, j];
+                }
+            }
+
+            for (int j = 0; j < move; j++)
+            {
+                for (int i = 0; i < xLength; i++)
+                {
+                    member[topOffset + i, leftOffset - move + j + yLength] = tempRow[j, i];
+                }
+            }
+        }
+
+        private void MoveLeft(Member member, int xLength, int yLength, int topOffset, int leftOffset)
+        {
+            int nextCol = leftOffset + yLength;
+            if (nextCol >= _dimY)
+            {
+                return;
+            }
+
+            int move = random.Next(_dimY - nextCol) + 1;
+
+            var tempRow = new int[xLength];
+            for (int i = 0; i < xLength; i++)
+            {
+                tempRow[i] = member[topOffset + i, nextCol];
+            }
+
+            for (int i = topOffset; i < topOffset + xLength; i++)
+            {
+                for (int j = nextCol; j > leftOffset; j--)
+                {
+                    member[i, j] = member[i, j - 1];
+                }
+            }
+
+            for (int i = 0; i < xLength; i++)
+            {
+                member[topOffset + i, leftOffset] = tempRow[i];
             }
         }
     }

@@ -39,12 +39,12 @@ namespace Lista1
             reproductionOperator = new RandomWithEliteReporoductionOperator(crossoverOperator, eveluationOperator, eliteSize);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 1); // brak mutacji
-            //mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
-            //mutationManager.RegisterOperator(new CellMutation(), 20); // mutacja dwóch komórek
-            //mutationManager.RegisterOperator(new RowMutation(), 4); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
-            //mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
-            //mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 1); // mutacja permutacyjna
+            mutationManager.RegisterOperator(new NoMutation(), 20); // brak mutacji
+            mutationManager.RegisterOperator(new CellMutation(), 20); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 5); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new RowMutation(), 2); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
+            mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
+            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 2); // mutacja permutacyjna
 
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
