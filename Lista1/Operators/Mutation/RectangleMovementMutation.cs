@@ -89,23 +89,34 @@ namespace Lista1.Operators
 
             int move = random.Next(_dimX - nextRow) + 1;
 
-            var tempRow = new int[yLength];
-            for (int i = 0; i < yLength; i++)
+            var tempRow = new int[move, yLength];
+            for (int j = 0; j < move; j++)
             {
-                tempRow[i] = member[nextRow, leftOffset + i];
-            }
-
-            for (int i = nextRow; i > topOffset; i--)
-            {
-                for (int j = leftOffset; j < leftOffset + yLength; j++)
+                for (int i = 0; i < yLength; i++)
                 {
-                    member[i, j] = member[i - 1, j];
+                    tempRow[j, i] = member[nextRow + j, leftOffset + i];
                 }
             }
 
-            for (int i = 0; i < yLength; i++)
+            for (int i = nextRow - 1; i >= topOffset; i--)
             {
-                member[topOffset, leftOffset + i] = tempRow[i];
+                for (int j = leftOffset; j < leftOffset + yLength; j++)
+                {
+                    member[i + move, j] = member[i, j];
+                }
+            }
+
+            for (int j = 0; j < move; j++)
+            {
+                for (int i = 0; i < yLength; i++)
+                {
+                    member[topOffset + j, leftOffset + i] = tempRow[j, i];
+                }
+            }
+
+            if (!member.IsValid(24))
+            {
+
             }
         }
 

@@ -39,8 +39,8 @@ namespace Lista1
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new CellMutation(), 20); // mutacja dwóch komórek
-            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 10); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 20); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new CellMutation(), 15); // mutacja dwóch komórek
             mutationManager.RegisterOperator(new NoMutation(), 5); // brak mutacji
             mutationManager.RegisterOperator(new RowMutation(), 2); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
