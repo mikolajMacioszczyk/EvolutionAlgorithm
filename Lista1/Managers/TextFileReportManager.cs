@@ -12,7 +12,9 @@ namespace Lista1.Managers
         {
             string directory = GetOutputDirectory();
 
-            SaveReport(Path.Combine(directory, $"{DateTime.Now.ToShortDateString()}.txt"), report);
+            var path = Path.Combine(directory, $"{DateTime.Now.ToShortDateString()}_{Guid.NewGuid()}.txt");
+            SaveReport(path, report);
+            Console.WriteLine($"Report saved to {path}");
         }
 
         private void SaveReport(string path, Report report)
@@ -37,13 +39,14 @@ namespace Lista1.Managers
                 $"{JsonSerializer.Serialize(report.BestMember.ToJaggedMatrix())}\n" +
                 $"\n" +
                 $"Round Statistics: (csv)\n" +
-                $"Best,Worst,Average\n";
+                $"Round,Best,Worst,Average\n";
 
             var sb = new StringBuilder(text);
 
-            foreach (var stats in report.RoundStats)
+            for (int i = 0; i < report.RoundStats.Count; i++)
             {
-                sb.Append($"{stats.Best},{stats.Worst},{stats.Average.ToString("0.00", CultureInfo.InvariantCulture)}\n");
+                var stats = report.RoundStats[i];
+                sb.Append($"{i+1},{stats.Best},{stats.Worst},{stats.Average.ToString("0.00", CultureInfo.InvariantCulture)}\n");
             }
 
             File.WriteAllText(path, sb.ToString());
@@ -59,7 +62,6 @@ namespace Lista1.Managers
                 Directory.CreateDirectory(directoryPath);
             }
 
-            Array.ForEach(Directory.GetFiles(directoryPath), File.Delete);
             return directoryPath;
         }
     }

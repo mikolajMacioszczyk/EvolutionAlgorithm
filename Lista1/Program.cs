@@ -48,28 +48,11 @@ namespace Lista1
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
         }
 
-        private void Run()
+        private void Run(Report report)
         {
-            var report = new Report() {
-                Rounds = rounds,
-                DimX = dimX,
-                DimY = dimY,
-                CrossWish = crossWish,
-                EliteSize = eliteSize,
-                MachinesCount = machinesCount,
-                MaxTournamentChampions = maxTournamentChampions,
-                PopulationSize = populationSize,
-                SubPopulationSize = subPopulationSize,
-                RoundStats = new List<RoundStats>()
-            };
-
             var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
             Console.WriteLine($"Initialized population with {populationSize} members.");
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
-
-            double bestResult = -1;
-            double worstResult = -1;
-            double averageResult = -1;
 
             for (int i = 0; i < rounds; i++)
             {
@@ -83,16 +66,11 @@ namespace Lista1
                 // selection
                 population = selectionOperator.Select(populationSize, population, i);
 
-                // wypisz statystyki
-                bestResult = population.Min(eveluationOperator.Evaluate);
-                worstResult = population.Max(eveluationOperator.Evaluate);
-                averageResult = population.Average(eveluationOperator.Evaluate);
-
-                report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult });
-
-                Console.WriteLine($"Round {i}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
+                // show statistics
+                CollectStatis(population, report, i);
             }
 
+            var bestResult = report.RoundStats.LastOrDefault()?.Best;
             report.BestMember = population.FirstOrDefault(m => eveluationOperator.Evaluate(m) == bestResult);
             reportManager.Save(report);
             Console.WriteLine("Done");
@@ -106,7 +84,33 @@ namespace Lista1
                 Console.WriteLine("inefficiently selected parameters.\n" +
                     "\"subPopulationSize\" should be divisable by \"populationSize\"");
             }
-            new Program().Run();
+
+            var report = new Report()
+            {
+                Rounds = rounds,
+                DimX = dimX,
+                DimY = dimY,
+                CrossWish = crossWish,
+                EliteSize = eliteSize,
+                MachinesCount = machinesCount,
+                MaxTournamentChampions = maxTournamentChampions,
+                PopulationSize = populationSize,
+                SubPopulationSize = subPopulationSize,
+                RoundStats = new List<RoundStats>()
+            };
+
+            new Program().Run(report);
+        }
+
+        private void CollectStatis(IEnumerable<Member> population, Report report, int round)
+        {
+            double bestResult = population.Min(eveluationOperator.Evaluate);
+            double worstResult = population.Max(eveluationOperator.Evaluate);
+            double averageResult = population.Average(eveluationOperator.Evaluate);
+
+            report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult });
+
+            Console.WriteLine($"Round {round}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
         }
 
         private Dictionary<int, Dictionary<int, int>> ReadFlowCostData()
