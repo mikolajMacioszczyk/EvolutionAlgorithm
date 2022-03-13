@@ -16,7 +16,7 @@ namespace Lista1
         const int dimY = 6;
         const int machinesCount = 24;
 
-        const double crossWish = 0.3;
+        const double crossChance = 0.3;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
 
@@ -35,7 +35,7 @@ namespace Lista1
             annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
-            crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossWish);
+            crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossChance);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
@@ -47,6 +47,7 @@ namespace Lista1
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 2); // mutacja permutacyjna
 
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
+            //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
         }
 
         private void Run(Report report)
@@ -97,7 +98,7 @@ namespace Lista1
                 Rounds = rounds,
                 DimX = dimX,
                 DimY = dimY,
-                CrossWish = crossWish,
+                CrossChance = crossChance,
                 EliteSize = eliteSize,
                 MachinesCount = machinesCount,
                 MaxTournamentChampions = maxTournamentChampions,
