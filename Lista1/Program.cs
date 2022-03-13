@@ -10,8 +10,8 @@ namespace Lista1
     {
         const int rounds = 200;
 
-        const int populationSize = 50;
-        const int subPopulationSize = 300;
+        const int populationSize = 100;
+        const int subPopulationSize = 600;
         const int dimX = 5;
         const int dimY = 6;
         const int machinesCount = 24;
@@ -19,6 +19,8 @@ namespace Lista1
         const double crossChance = 0.3;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
+
+        private int tournamentSize = subPopulationSize / populationSize;
 
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
@@ -46,7 +48,7 @@ namespace Lista1
             mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 2); // mutacja permutacyjna
 
-            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator);
+            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
             //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
         }
 

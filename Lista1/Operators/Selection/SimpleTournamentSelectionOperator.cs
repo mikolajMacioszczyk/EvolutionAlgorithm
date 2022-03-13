@@ -7,21 +7,22 @@ namespace Lista1.Operators
     {
         private static Random _random = new Random();
         private readonly IEveluationOperator _evaluationOperator;
+        private readonly int _tournamentSize;
 
-        public SimpleTournamentSelectionOperator(IEveluationOperator evaluationOperator)
+        public SimpleTournamentSelectionOperator(IEveluationOperator evaluationOperator, int tournamentSize)
         {
             _evaluationOperator = evaluationOperator;
+            _tournamentSize = tournamentSize;
         }
 
         public List<Member> Select(int count, List<Member> source, int currentRound)
         {
             var result = new List<Member>(count);
 
-            var tournamentSize = source.Count / count;
-            var rest = (source.Count % tournamentSize);
+            var rest = (source.Count % _tournamentSize);
             if (rest > 0)
             {
-                for (int i = 0; i < tournamentSize - rest; i++)
+                for (int i = 0; i < _tournamentSize - rest; i++)
                 {
                     source.Add(source[_random.Next(source.Count)].DeepCopy());
                 }
@@ -30,9 +31,9 @@ namespace Lista1.Operators
             // shuffle
             var sourceArray = source.OrderBy(x => _random.Next()).ToArray();
 
-            for (int i = 0; i < source.Count; i += tournamentSize)
+            for (int i = 0; i < source.Count; i += _tournamentSize)
             {
-                Array.Sort(sourceArray, i, tournamentSize, _evaluationOperator);
+                Array.Sort(sourceArray, i, _tournamentSize, _evaluationOperator);
 
                 // get best from tournament
                 result.Add(sourceArray[i]);
