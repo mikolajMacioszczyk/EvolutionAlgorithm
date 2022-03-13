@@ -5,6 +5,8 @@
         // TODO: Przetrzymuj inaczej
         public int[,] Matrix { get; set; }
 
+        public int? Evaluation { get; set; }
+
         public Member(int dimX, int dimY)
         {
             Matrix = new int[dimX, dimY];
@@ -25,7 +27,10 @@
 
         public int this[int i, int j]{
             get { return Matrix[i, j]; }
-            set { Matrix[i, j] = value; }
+            set { 
+                Matrix[i, j] = value;
+                Evaluation = null;
+            }
         }
 
         public (int, int) GetCoordinatesOfNumber(int number)

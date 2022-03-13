@@ -27,6 +27,11 @@ namespace Lista1.Operators
 
         public double Evaluate(Member member)
         {
+            if (member.Evaluation.HasValue)
+            {
+                return member.Evaluation.Value;
+            }
+
             var sum = 0;
 
             for (int i = 1; i <= _maxValue; i++)
@@ -47,6 +52,8 @@ namespace Lista1.Operators
                     }
                 }
             }
+
+            member.Evaluation = sum;
 
             return sum;
         }

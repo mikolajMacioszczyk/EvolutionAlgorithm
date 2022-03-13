@@ -25,8 +25,7 @@ namespace Lista1.Operators
 
             foreach (var member in source.Except(result))
             {
-                var evaluation = _evaluationOperator.Evaluate(member);
-                var value = 1.0 / evaluation;
+                var value = 1.0 / Math.Sqrt(_evaluationOperator.Evaluate(member));
                 sum += value;
                 roulette.Add((sum, member, false));
             }
