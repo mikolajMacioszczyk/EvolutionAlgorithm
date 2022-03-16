@@ -1,8 +1,4 @@
-﻿1. Czy można od razu pomnożyć koszt z flow już na samym początku?
-2. Czy koszt przepływu jest w dwie strony czy A -> B != B -> A?
-3. Czy jeśli nie ma zapisanego przepływu to jest on równy 0?
-4. Czy musimy się martwić tym, że użytkownik może podać niepoprane dane?
-5. Czy można używać intów jako flow i cost?
-6. Jak liczyć odległość?
-
-I. Czy mam dobrą kolejność działania?
+﻿// Jak liczyć odległość?  wartość maszyna 1 + stała + wartość maszyna 2 i na przekątnyhc to samo - na końcu
+// crososver - czasem jedno, czasem dwa - na końcu
+// zamienić kolejność
+// poprawić ruletke
