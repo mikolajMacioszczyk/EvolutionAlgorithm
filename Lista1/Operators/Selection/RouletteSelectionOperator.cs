@@ -21,8 +21,7 @@ namespace Lista1.Operators
         {
             double sum = 0;
 
-            var result = source.OrderBy(m => _evaluationOperator.Evaluate(m))
-                .Take(_eliteSize).ToList();
+            var result = new List<Member>();
 
             var roulette = new List<(double, Member, bool)>();
 

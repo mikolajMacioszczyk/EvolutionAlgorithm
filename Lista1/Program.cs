@@ -54,8 +54,8 @@ namespace Lista1
             mutationManager.RegisterOperator(new ReverseColumnMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
             mutationManager.RegisterOperator(new ReverseRowMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
 
-            //selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
-            selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
+            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
+            //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
         }
 
         private void Run(Report report)
@@ -72,20 +72,19 @@ namespace Lista1
             for (int i = 0; i < rounds && bestResult > treshold; i++)
             {
                 // select elite
-                var eliteCount = (int)Math.Round(population.Count * eliteSize);
+                var eliteCount = (int)Math.Round(populationSize * eliteSize);
                 var elite = population.OrderBy(m => eveluationOperator.Evaluate(m)).Take(eliteCount).ToList();
 
+                // selection
+                population = selectionOperator.Select(populationSize - eliteCount, population, i);
+                
                 // generation
-                // TODO: cross based on relationship
                 population = reproductionOperator.GenerateChildren(population, subPopulationSize - eliteCount);
                 
                 // mutation
                 mutationManager.MutatePopulation(population);
 
                 population.AddRange(elite);
-
-                // selection
-                population = selectionOperator.Select(populationSize, population, i);
 
                 // show statistics
                 bestResult = CollectStatis(population, report, i);
