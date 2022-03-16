@@ -18,6 +18,8 @@ namespace Lista1.Operators
             _baseDistance = baseDistance;
         }
 
+        public string Name => nameof(PaddingDistanceEvaluation);
+
         public int Compare(Member? x, Member? y)
         {
             return Evaluate(x).CompareTo(Evaluate(y));

@@ -14,6 +14,8 @@ namespace Lista1.Operators
             _maxValue = maxValue;
         }
 
+        public string Name => nameof(ManhattanDistanceEvaluation);
+
         public int Compare(Member? x, Member? y)
         {
             return Evaluate(x).CompareTo(Evaluate(y));

@@ -36,6 +36,7 @@ namespace Lista1.Managers
                 $"Max tournament champions: {report.MaxTournamentChampions}\n" +
                 $"\n" +
                 $"Selection operator: {report.SelectionOperator}\n" +
+                $"Evaluation operator: {report.EvaluationOperator}\n" +
                 $"Mustation operators:\n");
 
             foreach (var mutationInfo in report.MutationOperatorsInfo)

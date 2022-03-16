@@ -61,6 +61,7 @@ namespace Lista1
         private void Run(Report report)
         {
             report.SelectionOperator = selectionOperator.Name;
+            report.EvaluationOperator = eveluationOperator.Name;
 
             var startTime = DateTime.Now;
             var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
