@@ -19,6 +19,7 @@ namespace Lista1
         const double crossChance = 0.5;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
+        const int treshold = 0;
 
         private int tournamentSize = subPopulationSize / populationSize;
 
@@ -63,7 +64,8 @@ namespace Lista1
             Console.WriteLine($"Initialized population with {populationSize} members.");
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
 
-            for (int i = 0; i < rounds; i++)
+            double bestResult = double.MaxValue;
+            for (int i = 0; i < rounds && bestResult > treshold; i++)
             {
                 // select elite
                 var eliteCount = (int)Math.Round(population.Count * eliteSize);
@@ -82,13 +84,13 @@ namespace Lista1
                 population = selectionOperator.Select(populationSize, population, i);
 
                 // show statistics
-                CollectStatis(population, report, i);
+                bestResult = CollectStatis(population, report, i);
             }
             report.Time = DateTime.Now - startTime;
             report.MutationOperatorsInfo = mutationManager.GetOparatorsInfo();
 
-            var bestResult = report.RoundStats.LastOrDefault()?.Best;
-            report.BestMember = population.First(m => eveluationOperator.Evaluate(m) == bestResult);
+            var resutBest = report.RoundStats.LastOrDefault()?.Best;
+            report.BestMember = population.First(m => eveluationOperator.Evaluate(m) == resutBest);
             reportManager.Save(report);
             Console.WriteLine($"Done in {report.Time.Milliseconds} ms");
             Console.WriteLine($"Best result: {bestResult}");
@@ -126,7 +128,7 @@ namespace Lista1
             new Program().Run(report);
         }
 
-        private void CollectStatis(IEnumerable<Member> population, Report report, int round)
+        private double CollectStatis(IEnumerable<Member> population, Report report, int round)
         {
             double bestResult = population.Min(eveluationOperator.Evaluate);
             double worstResult = population.Max(eveluationOperator.Evaluate);
@@ -135,6 +137,7 @@ namespace Lista1
             report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult });
 
             Console.WriteLine($"Round {round}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
+            return bestResult;
         }
 
         private Dictionary<int, Dictionary<int, int>> ReadFlowCostData()
