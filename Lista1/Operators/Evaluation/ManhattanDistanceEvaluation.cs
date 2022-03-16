@@ -3,12 +3,6 @@ using Lista1.Models;
 
 namespace Lista1.Operators
 {
-    // czy można używać intów?
-    // czy musimy się martwić tym, że użytkownik może podać niepoprane dane?
-    // czy można od razu pomnożyć koszt z flow?
-    // czy koszt przepływu jest w dwie strony czy A -> B != B -> A?
-    // jak liczyć odległość?
-    // czy to dobrze że pomijam część możliwości między maszynami?
     public class ManhattanDistanceEvaluation : IEveluationOperator
     {
         private readonly Dictionary<int, Dictionary<int, int>> _costsOfFlow;
