@@ -21,13 +21,14 @@ namespace Lista1.Operators
         {
             double sum = 0;
 
-            var result = source.OrderBy(m => _evaluationOperator.Evaluate(m)).Take(_eliteSize).ToList();
+            var result = source.OrderBy(m => _evaluationOperator.Evaluate(m))
+                .Take(_eliteSize).ToList();
 
             var roulette = new List<(double, Member, bool)>();
 
             foreach (var member in source.Except(result))
             {
-                var value = 1.0 / Math.Sqrt(_evaluationOperator.Evaluate(member));
+                var value = Math.Pow(1.0 / _evaluationOperator.Evaluate(member), 3);
                 sum += value;
                 roulette.Add((sum, member, false));
             }

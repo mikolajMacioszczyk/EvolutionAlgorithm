@@ -51,8 +51,8 @@ namespace Lista1
             mutationManager.RegisterOperator(new ReverseColumnMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
             mutationManager.RegisterOperator(new ReverseRowMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
 
-            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
-            //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
+            //selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
+            selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
         }
 
         private void Run(Report report)
