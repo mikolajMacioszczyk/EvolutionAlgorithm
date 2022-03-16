@@ -6,6 +6,8 @@ namespace Lista1.Operators
     public class ColumnMutation : IMutationOperator
     {
         private static Random random = new Random();
+        public string Name => nameof(ColumnMutation);
+        public bool CanRegister(int dimX, int dimY, int machinesCount) => dimX > 0 && dimY > 1;
 
         public void Mutate(Member member)
         {

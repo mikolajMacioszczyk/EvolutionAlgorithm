@@ -11,6 +11,13 @@ namespace Lista1.Operators
         
         private readonly int _dimY;
 
+        public string Name => nameof(RectangleMovementMutation);
+
+        public bool CanRegister(int dimX, int dimY, int machinesCount)
+        {
+            return dimX - 1 >= 1 && dimY - 1 >= 1;
+        }
+
         public RectangleMovementMutation(int dimX, int dimY)
         {
             _dimX = dimX;

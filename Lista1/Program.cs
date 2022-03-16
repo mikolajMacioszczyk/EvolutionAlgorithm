@@ -8,15 +8,15 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 200;
+        const int rounds = 100;
 
-        const int populationSize = 100;
-        const int subPopulationSize = 600;
+        const int populationSize = 40;
+        const int subPopulationSize = 240;
         const int dimX = 5;
         const int dimY = 6;
         const int machinesCount = 24;
 
-        const double crossChance = 0.3;
+        const double crossChance = 0.5;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
 
@@ -41,12 +41,12 @@ namespace Lista1
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
-            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 20); // przesunięcie prostokąta
-            mutationManager.RegisterOperator(new CellMutation(), 15); // mutacja dwóch komórek
-            mutationManager.RegisterOperator(new NoMutation(), 5); // brak mutacji
-            mutationManager.RegisterOperator(new RowMutation(), 2); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
-            mutationManager.RegisterOperator(new ColumnMutation(), 2); // mutacja dwóch kolumn
-            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 2); // mutacja permutacyjna
+            mutationManager.RegisterOperator(new NoMutation(), 5, dimX, dimY, machinesCount); // brak mutacji
+            mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 20, dimX, dimY, machinesCount); // przesunięcie prostokąta
+            mutationManager.RegisterOperator(new CellMutation(), 15, dimX, dimY, machinesCount); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new RowMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
+            mutationManager.RegisterOperator(new ColumnMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch kolumn
+            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 5, dimX, dimY, machinesCount); // mutacja permutacyjna
 
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
             //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));

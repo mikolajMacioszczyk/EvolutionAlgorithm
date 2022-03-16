@@ -6,6 +6,11 @@ namespace Lista1.Operators
     public class RowMutation : IMutationOperator
     {
         private static Random random = new Random();
+
+        public string Name => nameof(RowMutation);
+
+        public bool CanRegister(int dimX, int dimY, int machinesCount) => dimX > 1 && dimY > 0;
+
         public void Mutate(Member member)
         {
             var columnLenght = member.Matrix.GetLength(1);

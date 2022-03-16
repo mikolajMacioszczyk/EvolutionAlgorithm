@@ -5,6 +5,6 @@ namespace Lista1.Interfaces
     public interface IMutationManager
     {
         public void MutatePopulation(List<Member> members);
-        public void RegisterOperator(IMutationOperator mutationOperator, int chance);
+        public void RegisterOperator(IMutationOperator mutationOperator, int chance, int dimX, int dimY, int machinesCount);
     }
 }

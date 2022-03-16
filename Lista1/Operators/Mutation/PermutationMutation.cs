@@ -14,6 +14,10 @@ namespace Lista1.Operators
             this.maxNumber = maxNumber;
         }
 
+        public string Name => nameof(PermutationMutation);
+
+        public bool CanRegister(int dimX, int dimY, int machinesCount) => machinesCount > 1;
+
         public void Mutate(Member member)
         {
             var permutation = GetPermutation();

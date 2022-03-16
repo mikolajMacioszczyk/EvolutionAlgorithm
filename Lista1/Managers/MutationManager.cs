@@ -23,10 +23,17 @@ namespace Lista1.Managers
             }
         }
 
-        public void RegisterOperator(IMutationOperator mutationOperator, int chance)
+        public void RegisterOperator(IMutationOperator mutationOperator, int chance, int dimX, int dimY, int machinesCount)
         {
-            summChance += chance;
-            mutationOperators.Add((mutationOperator, summChance));
+            if (mutationOperator.CanRegister(dimX, dimY, machinesCount))
+            {
+                summChance += chance;
+                mutationOperators.Add((mutationOperator, summChance));
+            }
+            else
+            {
+                Console.WriteLine($"Cannot register {mutationOperator.Name} with dimX: {dimX}, dimY: {dimY}, machinesCount: {machinesCount}");
+            }
         }
     }
 }

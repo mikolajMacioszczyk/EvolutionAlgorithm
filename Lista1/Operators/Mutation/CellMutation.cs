@@ -6,6 +6,11 @@ namespace Lista1.Operators
     public class CellMutation : IMutationOperator
     {
         private static Random random = new Random();
+
+        public string Name => nameof(CellMutation);
+
+        public bool CanRegister(int dimX, int dimY, int machinesCount) => dimX > 0 && dimY > 0;
+
         public void Mutate(Member member)
         {
             var cell1X = random.Next(member.Matrix.GetLength(0));
