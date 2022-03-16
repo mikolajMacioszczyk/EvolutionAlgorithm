@@ -8,7 +8,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 1000;
+        const int rounds = 500;
 
         const int populationSize = 50;
         const int subPopulationSize = 300;
@@ -47,7 +47,8 @@ namespace Lista1
             mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 5, dimX, dimY, machinesCount); // mutacja permutacyjna
             mutationManager.RegisterOperator(new RowMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch kolumn
-            mutationManager.RegisterOperator(new ReverseColumnMutation(), 2, dimX, dimY, machinesCount); // odrócenie kolumny
+            mutationManager.RegisterOperator(new ReverseColumnMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
+            mutationManager.RegisterOperator(new ReverseRowMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
 
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
             //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
