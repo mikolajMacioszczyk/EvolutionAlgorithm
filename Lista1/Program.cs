@@ -8,7 +8,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 500;
+        const int rounds = 300;
 
         const int populationSize = 50;
         const int subPopulationSize = 300;
@@ -16,7 +16,7 @@ namespace Lista1
         const int dimY = 6;
         const int machinesCount = 24;
 
-        const double crossChance = 0.5;
+        const double crossProbability = 0.3;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
         const int treshold = 0;
@@ -38,7 +38,7 @@ namespace Lista1
             annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
             eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             initializationOperator = new InitializationOperator();
-            crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossChance);
+            crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossProbability);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
 
             mutationManager = new MutationManager();
@@ -116,7 +116,7 @@ namespace Lista1
                 Rounds = rounds,
                 DimX = dimX,
                 DimY = dimY,
-                CrossChance = crossChance,
+                CrossProbability = crossProbability,
                 EliteSize = eliteSize,
                 MachinesCount = machinesCount,
                 MaxTournamentChampions = maxTournamentChampions,

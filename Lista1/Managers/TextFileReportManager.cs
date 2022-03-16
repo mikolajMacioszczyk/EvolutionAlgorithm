@@ -32,7 +32,7 @@ namespace Lista1.Managers
                 $"Population size: {report.PopulationSize}\n" +
                 $"Subpopulation size: {report.SubPopulationSize}\n" +
                 $"Elite size: {report.EliteSize}\n" +
-                $"Cross chance: {report.CrossChance}\n" +
+                $"Cross probability: {report.CrossProbability}\n" +
                 $"Max tournament champions: {report.MaxTournamentChampions}\n" +
                 $"\n" +
                 $"Selection operator: {report.SelectionOperator}\n" +

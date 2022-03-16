@@ -8,14 +8,14 @@ namespace Lista1.Operators
         private static Random Random = new Random();
         public int ChildrenSize => 2;
         
-        private double CrossWish { get; set; }
+        private double CrossProbability { get; set; }
 
         public int MaxNumber { get; set; }
 
-        public CascadeCrossoverOperator(int maxNumber, double crossWish)
+        public CascadeCrossoverOperator(int maxNumber, double crossProbability)
         {
             MaxNumber = maxNumber;
-            CrossWish = crossWish;
+            CrossProbability = crossProbability;
         }
 
         public Member[] Cross(Member first, Member second)
@@ -25,16 +25,15 @@ namespace Lista1.Operators
 
             var number = Random.Next(0, MaxNumber) + 1;
 
-            PerformCross(number, child1, second);
-            PerformCross(number, child2, first);
+            PerformCross(number, child1, child2);
 
             return new Member[] { child1, child2 };
         }
 
-        private void PerformCross(int number, Member active, Member passive)
+        private void PerformCross(int number, Member firstChild, Member secondChild)
         {
-            var coords = active.GetCoordinatesOfNumber(number);
-            var exchangedNumber = passive[coords.Item1, coords.Item2];
+            var coords = firstChild.GetCoordinatesOfNumber(number);
+            var exchangedNumber = secondChild[coords.Item1, coords.Item2];
             
             // no change
             if (number == exchangedNumber)
@@ -45,58 +44,46 @@ namespace Lista1.Operators
             // empty field
             if (exchangedNumber == 0)
             {
-                SwapWithEmptyField(number, active, passive, coords);
+                SwapWithEmptyField(number, firstChild, secondChild, coords);
             }
             else
             {
-                SwapWithValues(number, exchangedNumber, active, passive, coords);
+                SwapWithValues(number, exchangedNumber, firstChild, secondChild, coords);
             }
         }
 
-        private void SwapWithValues(int number, int exchangedNumber, Member active, Member passive, (int, int) coords)
+        private void SwapWithValues(int number, int exchangedNumber, Member firstChild, Member secondChild, (int, int) coords)
         {
             // swap values
-            var newCoords = active.GetCoordinatesOfNumber(exchangedNumber);
-            active[coords.Item1, coords.Item2] = exchangedNumber;
-            active[newCoords.Item1, newCoords.Item2] = number;
+            var newCoords = firstChild.GetCoordinatesOfNumber(exchangedNumber);
+            firstChild[coords.Item1, coords.Item2] = exchangedNumber;
+            firstChild[newCoords.Item1, newCoords.Item2] = number;
 
-            if (Random.NextDouble() < CrossWish)
+            var newCoorsd2 = secondChild.GetCoordinatesOfNumber(number);
+            secondChild[coords.Item1, coords.Item2] = number;
+            secondChild[newCoorsd2.Item1, newCoorsd2.Item2] = exchangedNumber;
+
+            if (Random.NextDouble() < CrossProbability)
             {
                 // recurence with the same values
                 // bubbles starting values
-                PerformCross(number, active, passive);
+                PerformCross(number, firstChild, secondChild);
             }
         }
 
-        private void SwapWithEmptyField(int number, Member active, Member passive, (int, int) coords)
+        private void SwapWithEmptyField(int number, Member firstChild, Member secondChild, (int, int) coords)
         {
-            while (number > 0)
-            {
-                active[coords.Item1, coords.Item2] = 0;
+            firstChild[coords.Item1, coords.Item2] = 0;
 
-                // TODO: bug
-                if (Random.NextDouble() < CrossWish && false)
-                {
-                    // exchange based on structure of passive Member
+            // find random zero-value position
+            var zeroCoords = GetRandomEmptyPosition(firstChild);
+            // swap with that position
+            firstChild[zeroCoords.Item1, zeroCoords.Item2] = number;
 
-                    // get number position on passive's grid
-                    coords = passive.GetCoordinatesOfNumber(number);
-                    // get value on that position
-                    var temp = active[coords.Item1, coords.Item2];
-
-                    // move step foreward
-                    active[coords.Item1, coords.Item2] = number;
-                    number = temp;
-                }
-                else
-                {
-                    // find random zero-value position
-                    var zeroCoords = GetRandomEmptyPosition(active);
-                    // swap with that position
-                    active[zeroCoords.Item1, zeroCoords.Item2] = number;
-                    number = 0;
-                }
-            }
+            // second
+            var passiveCoords = secondChild.GetCoordinatesOfNumber(number);
+            secondChild[coords.Item1, coords.Item2] = number;
+            secondChild[passiveCoords.Item1, passiveCoords.Item2] = 0;
         }
     
         private (int, int) GetRandomEmptyPosition(Member member)

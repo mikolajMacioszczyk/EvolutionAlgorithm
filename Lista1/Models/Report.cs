@@ -6,7 +6,7 @@
         public int PopulationSize { get; set; }
         public int SubPopulationSize { get; set; }
         public int Rounds { get; set; }
-        public double CrossChance { get; set; }
+        public double CrossProbability { get; set; }
         public double EliteSize { get; set; }
         public int MaxTournamentChampions { get; set; }
         public int DimX { get; set; }
