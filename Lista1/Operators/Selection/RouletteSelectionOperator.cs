@@ -15,6 +15,8 @@ namespace Lista1.Operators
             _eliteSize = eliteSize;
         }
 
+        public string Name => nameof(RouletteSelectionOperator);
+
         public List<Member> Select(int count, List<Member> source, int currentRound)
         {
             double sum = 0;

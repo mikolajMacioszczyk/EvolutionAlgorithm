@@ -35,6 +35,8 @@ namespace Lista1.Managers
                 $"Cross chance: {report.CrossChance}\n" +
                 $"Max tournament champions: {report.MaxTournamentChampions}\n" +
                 $"\n" +
+                $"Selection operator: {report.SelectionOperator}\n" +
+                $"\n" +
                 $"Best result: \n" +
                 $"{JsonSerializer.Serialize(report.BestMember.ToJaggedMatrix())}\n" +
                 $"\n" +

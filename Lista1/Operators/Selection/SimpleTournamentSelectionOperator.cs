@@ -15,6 +15,8 @@ namespace Lista1.Operators
             _tournamentSize = tournamentSize;
         }
 
+        public string Name => nameof(SimpleTournamentSelectionOperator);
+
         public List<Member> Select(int count, List<Member> source, int currentRound)
         {
             var result = new List<Member>(count);

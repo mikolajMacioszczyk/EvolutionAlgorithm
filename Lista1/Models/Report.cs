@@ -14,5 +14,6 @@
         public int MachinesCount { get; set; }
         public List<RoundStats> RoundStats { get; set; }
         public Member BestMember { get; set; }
+        public string SelectionOperator { get; set; }
     }
 }

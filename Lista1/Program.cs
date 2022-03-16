@@ -54,6 +54,8 @@ namespace Lista1
 
         private void Run(Report report)
         {
+            report.SelectionOperator = selectionOperator.Name;
+
             var startTime = DateTime.Now;
             var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
             Console.WriteLine($"Initialized population with {populationSize} members.");
@@ -115,7 +117,7 @@ namespace Lista1
                 MaxTournamentChampions = maxTournamentChampions,
                 PopulationSize = populationSize,
                 SubPopulationSize = subPopulationSize,
-                RoundStats = new List<RoundStats>()
+                RoundStats = new List<RoundStats>(),
             };
 
             new Program().Run(report);

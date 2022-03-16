@@ -15,6 +15,8 @@ namespace Lista1.Operators
             _annealingManager = annealingManager;
         }
 
+        public string Name => nameof(AnnealingTournamentSelectionOperator);
+
         public List<Member> Select(int count, List<Member> source, int currentRound)
         {
             int champions = _annealingManager.GetChampionsCount(currentRound);
