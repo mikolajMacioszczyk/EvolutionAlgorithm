@@ -198,7 +198,27 @@ namespace Lista1
 
         private void PrintMember(Member member)
         {
-
+            Console.WriteLine();
+            Console.WriteLine($"{member.Matrix.GetLength(0)} x {member.Matrix.GetLength(1)}");
+            for (int i = 0; i < member.Matrix.GetLength(0); i++)
+            {
+                Console.WriteLine(new string('-', member.Matrix.GetLength(1) * 4));
+                for (int j = 0; j < member.Matrix.GetLength(1); j++)
+                {
+                    var value = member.Matrix[i, j];
+                    if (value > 0)
+                    {
+                        Console.Write($"{value - 1, 2} ");
+                    }
+                    else
+                    {
+                        Console.Write($"{"*", 2} ");
+                    }
+                    Console.Write('|');
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(new string('-', member.Matrix.GetLength(1) * 4));
         }
     }
 }
