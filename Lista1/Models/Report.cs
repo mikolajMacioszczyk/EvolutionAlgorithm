@@ -2,6 +2,7 @@
 {
     public class Report
     {
+        public TimeSpan Time { get; set; }
         public int PopulationSize { get; set; }
         public int SubPopulationSize { get; set; }
         public int Rounds { get; set; }

@@ -54,6 +54,7 @@ namespace Lista1
 
         private void Run(Report report)
         {
+            var startTime = DateTime.Now;
             var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
             Console.WriteLine($"Initialized population with {populationSize} members.");
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
@@ -79,16 +80,24 @@ namespace Lista1
                 // show statistics
                 CollectStatis(population, report, i);
             }
+            report.Time = DateTime.Now - startTime;
 
             var bestResult = report.RoundStats.LastOrDefault()?.Best;
-            report.BestMember = population.FirstOrDefault(m => eveluationOperator.Evaluate(m) == bestResult);
+            report.BestMember = population.First(m => eveluationOperator.Evaluate(m) == bestResult);
             reportManager.Save(report);
-            Console.WriteLine("Done");
+            Console.WriteLine($"Done in {report.Time.Milliseconds} ms");
+            Console.WriteLine($"Best result: {bestResult}");
+            PrintMember(report.BestMember);
             Console.ReadLine();
         }
 
         static void Main()
         {
+            if (populationSize < 1 || subPopulationSize < 1)
+            {
+                Console.WriteLine("Population and SubPopulation size must be greater then 0!");
+                return;
+            }
             if (subPopulationSize % populationSize > 0)
             {
                 Console.WriteLine("inefficiently selected parameters.\n" +
@@ -185,6 +194,11 @@ namespace Lista1
             }
 
             return (costs, flows);
+        }
+
+        private void PrintMember(Member member)
+        {
+
         }
     }
 }

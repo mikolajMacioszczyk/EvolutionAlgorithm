@@ -38,6 +38,8 @@ namespace Lista1.Managers
                 $"Best result: \n" +
                 $"{JsonSerializer.Serialize(report.BestMember.ToJaggedMatrix())}\n" +
                 $"\n" +
+                $"Time: {report.Time.Milliseconds} ms\n" +
+                $"\n" +
                 $"Round Statistics: (csv)\n" +
                 $"Round,Best,Worst,Average\n";
 
