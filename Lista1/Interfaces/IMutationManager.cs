@@ -6,5 +6,6 @@ namespace Lista1.Interfaces
     {
         public void MutatePopulation(List<Member> members);
         public void RegisterOperator(IMutationOperator mutationOperator, int chance, int dimX, int dimY, int machinesCount);
+        public IEnumerable<(string, double)> GetOparatorsInfo();
     }
 }

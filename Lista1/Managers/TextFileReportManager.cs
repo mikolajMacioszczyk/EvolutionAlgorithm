@@ -24,7 +24,7 @@ namespace Lista1.Managers
                 File.Create(path).Close();
             }
 
-            string text = $"MaxhinesCount: {report.MachinesCount}\n" +
+            var sb = new StringBuilder($"MaxhinesCount: {report.MachinesCount}\n" +
                 $"DimX: {report.DimX}\n" +
                 $"DimY: {report.DimY}\n" +
                 $"Learning parameters: \n" +
@@ -36,16 +36,21 @@ namespace Lista1.Managers
                 $"Max tournament champions: {report.MaxTournamentChampions}\n" +
                 $"\n" +
                 $"Selection operator: {report.SelectionOperator}\n" +
+                $"Mustation operators:\n");
+
+            foreach (var mutationInfo in report.MutationOperatorsInfo)
+            {
+                sb.Append($" - {mutationInfo.Item1} with {mutationInfo.Item2.ToString("0.##")}% chance\n");
+            }
+
+            sb.Append($"\n" +
+                $"Time: {report.Time.Milliseconds} ms\n" +
                 $"\n" +
                 $"Best result: \n" +
                 $"{JsonSerializer.Serialize(report.BestMember.ToJaggedMatrix())}\n" +
                 $"\n" +
-                $"Time: {report.Time.Milliseconds} ms\n" +
-                $"\n" +
                 $"Round Statistics: (csv)\n" +
-                $"Round,Best,Worst,Average\n";
-
-            var sb = new StringBuilder(text);
+                $"Round,Best,Worst,Average\n");
 
             for (int i = 0; i < report.RoundStats.Count; i++)
             {

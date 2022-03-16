@@ -8,7 +8,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 100;
+        const int rounds = 1000;
 
         const int populationSize = 40;
         const int subPopulationSize = 240;
@@ -83,6 +83,7 @@ namespace Lista1
                 CollectStatis(population, report, i);
             }
             report.Time = DateTime.Now - startTime;
+            report.MutationOperatorsInfo = mutationManager.GetOparatorsInfo();
 
             var bestResult = report.RoundStats.LastOrDefault()?.Best;
             report.BestMember = population.First(m => eveluationOperator.Evaluate(m) == bestResult);

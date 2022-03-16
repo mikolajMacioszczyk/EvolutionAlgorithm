@@ -15,5 +15,6 @@
         public List<RoundStats> RoundStats { get; set; }
         public Member BestMember { get; set; }
         public string SelectionOperator { get; set; }
+        public IEnumerable<(string, double)> MutationOperatorsInfo { get; set; }
     }
 }

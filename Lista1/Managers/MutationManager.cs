@@ -6,9 +6,16 @@ namespace Lista1.Managers
     public class MutationManager : IMutationManager
     {
         private static Random _random = new Random();
-        private List<(IMutationOperator, int)> mutationOperators = new List<(IMutationOperator, int)>();
+        private List<(IMutationOperator, int, int)> mutationOperators = new List<(IMutationOperator, int, int)>();
 
         private int summChance;
+
+        public IEnumerable<(string, double)> GetOparatorsInfo()
+        {
+            return mutationOperators
+                .Select(kv => (kv.Item1.Name, 1.0 * kv.Item3 / summChance * 100))
+                .OrderByDescending(kv => kv.Item2);
+        }
 
         public void MutatePopulation(List<Member> members)
         {
@@ -28,7 +35,7 @@ namespace Lista1.Managers
             if (mutationOperator.CanRegister(dimX, dimY, machinesCount))
             {
                 summChance += chance;
-                mutationOperators.Add((mutationOperator, summChance));
+                mutationOperators.Add((mutationOperator, summChance, chance));
             }
             else
             {
