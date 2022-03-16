@@ -10,8 +10,8 @@ namespace Lista1
     {
         const int rounds = 1000;
 
-        const int populationSize = 40;
-        const int subPopulationSize = 240;
+        const int populationSize = 50;
+        const int subPopulationSize = 300;
         const int dimX = 5;
         const int dimY = 6;
         const int machinesCount = 24;
@@ -44,9 +44,10 @@ namespace Lista1
             mutationManager.RegisterOperator(new NoMutation(), 5, dimX, dimY, machinesCount); // brak mutacji
             mutationManager.RegisterOperator(new RectangleMovementMutation(dimX, dimY), 20, dimX, dimY, machinesCount); // przesunięcie prostokąta
             mutationManager.RegisterOperator(new CellMutation(), 15, dimX, dimY, machinesCount); // mutacja dwóch komórek
+            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 5, dimX, dimY, machinesCount); // mutacja permutacyjna
             mutationManager.RegisterOperator(new RowMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch wierszy (preferowane ze względu na strukture pamięci)
             mutationManager.RegisterOperator(new ColumnMutation(), 2, dimX, dimY, machinesCount); // mutacja dwóch kolumn
-            mutationManager.RegisterOperator(new PermutationMutation(machinesCount), 5, dimX, dimY, machinesCount); // mutacja permutacyjna
+            mutationManager.RegisterOperator(new ReverseColumnMutation(), 2, dimX, dimY, machinesCount); // odrócenie kolumny
 
             selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
             //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
