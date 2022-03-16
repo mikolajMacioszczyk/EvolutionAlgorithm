@@ -16,6 +16,8 @@ namespace Lista1
         const int dimY = 6;
         const int machinesCount = 24;
 
+        const int baseDistance = 50;
+
         const double crossProbability = 0.3;
         const double eliteSize = 0.05;
         const int maxTournamentChampions = 3;
@@ -36,7 +38,8 @@ namespace Lista1
         {
             reportManager = new TextFileReportManager();
             annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
-            eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
+            //eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
+            eveluationOperator = new PaddingDistanceEvaluation(ReadFlowCostData(), ReadMachinesPadding(), machinesCount, baseDistance);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossProbability);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
@@ -159,6 +162,35 @@ namespace Lista1
             foreach (var flow in flows)
             {
                 result[flow.Source][flow.Dest] *= flow.Amount;
+            }
+
+            return result;
+        }
+
+        private Dictionary<int, int> ReadMachinesPadding()
+        {
+            var root = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
+            var input = Path.Combine(root, "Input");
+            var paddingJson = Path.Join(input, "padding.json");
+
+            if (!File.Exists(paddingJson))
+            {
+                throw new Exception("File Input/padding.json not exist");
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var result = new Dictionary<int, int>() { };
+
+            var paddingsString = File.ReadAllText(paddingJson);
+            var paddings = JsonSerializer.Deserialize<IEnumerable<PaddingModel>>(paddingsString, options);
+            foreach (var padding in paddings)
+            {
+                padding.Source += 1;
+                result.Add(padding.Source, padding.Padding);
             }
 
             return result;
