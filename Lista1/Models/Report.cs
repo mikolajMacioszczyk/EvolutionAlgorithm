@@ -5,7 +5,7 @@
         public TimeSpan Time { get; set; }
         public int PopulationSize { get; set; }
         public int SubPopulationSize { get; set; }
-        public int Rounds { get; set; }
+        public int MaxRoundsWithoutProgress { get; set; }
         public double CrossProbability { get; set; }
         public double EliteSize { get; set; }
         public int MaxTournamentChampions { get; set; }

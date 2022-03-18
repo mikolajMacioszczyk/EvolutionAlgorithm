@@ -8,7 +8,7 @@ namespace Lista1
 {
     public class Program
     {
-        const int rounds = 300;
+        const int maxRoundsWithoutProgress = 150;
 
         const int populationSize = 50;
         const int subPopulationSize = 300;
@@ -37,7 +37,7 @@ namespace Lista1
         public Program()
         {
             reportManager = new TextFileReportManager();
-            annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
+            //annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
             //eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
             eveluationOperator = new PaddingDistanceEvaluation(ReadFlowCostData(), ReadMachinesPadding(), machinesCount, baseDistance);
             initializationOperator = new InitializationOperator();
@@ -69,25 +69,35 @@ namespace Lista1
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
 
             double bestResult = double.MaxValue;
-            for (int i = 0; i < rounds && bestResult > treshold; i++)
+            int round = 0;
+            int roundsWithoutProgress = 0;
+            while (roundsWithoutProgress < maxRoundsWithoutProgress && bestResult > treshold)
             {
+                round++;
+                roundsWithoutProgress++;
+
                 // select elite
                 var eliteCount = (int)Math.Round(population.Count * eliteSize);
                 var elite = population.OrderBy(m => eveluationOperator.Evaluate(m)).Take(eliteCount).ToList();
 
                 // generation
                 population = reproductionOperator.GenerateChildren(population, subPopulationSize - eliteCount);
-                
+
                 // mutation
                 mutationManager.MutatePopulation(population);
 
                 population.AddRange(elite);
 
                 // selection
-                population = selectionOperator.Select(populationSize, population, i);
+                population = selectionOperator.Select(populationSize, population, round);
 
-                // show statistics
-                bestResult = CollectStatis(population, report, i);
+                // show statistics and check if progress
+                var newBest = CollectStatis(population, report, round);
+                if (newBest < bestResult)
+                {
+                    bestResult = newBest;
+                    roundsWithoutProgress = 0;
+                }
             }
             report.Time = DateTime.Now - startTime;
             report.MutationOperatorsInfo = mutationManager.GetOparatorsInfo();
@@ -116,7 +126,7 @@ namespace Lista1
 
             var report = new Report()
             {
-                Rounds = rounds,
+                MaxRoundsWithoutProgress = maxRoundsWithoutProgress,
                 DimX = dimX,
                 DimY = dimY,
                 CrossProbability = crossProbability,

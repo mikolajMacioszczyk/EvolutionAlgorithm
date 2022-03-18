@@ -28,7 +28,7 @@ namespace Lista1.Managers
                 $"DimX: {report.DimX}\n" +
                 $"DimY: {report.DimY}\n" +
                 $"Learning parameters: \n" +
-                $"Rounds: {report.Rounds}\n" +
+                $"Max rounds without progress: {report.MaxRoundsWithoutProgress}\n" +
                 $"Population size: {report.PopulationSize}\n" +
                 $"Subpopulation size: {report.SubPopulationSize}\n" +
                 $"Elite size: {report.EliteSize}\n" +
