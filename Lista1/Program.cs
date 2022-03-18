@@ -64,8 +64,8 @@ namespace Lista1
             report.EvaluationOperator = eveluationOperator.Name;
 
             var startTime = DateTime.Now;
-            var population = initializationOperator.InitializePopulation(populationSize, dimX, dimY, machinesCount);
-            Console.WriteLine($"Initialized population with {populationSize} members.");
+            var population = initializationOperator.InitializePopulation(subPopulationSize, dimX, dimY, machinesCount);
+            Console.WriteLine($"Initialized population with {subPopulationSize} members.");
             Console.WriteLine($"Each member consist of {dimX} x {dimY} grid on which {machinesCount} mechines are randomly placed");
 
             double bestResult = double.MaxValue;
