@@ -51,12 +51,12 @@ namespace Lista1.Managers
                 $"{JsonSerializer.Serialize(report.BestMember.ToJaggedMatrix())}\n" +
                 $"\n" +
                 $"Round Statistics: (csv)\n" +
-                $"Round,Best,Worst,Average\n");
+                $"Round,Best,Worst,Average,Std\n");
 
             for (int i = 0; i < report.RoundStats.Count; i++)
             {
                 var stats = report.RoundStats[i];
-                sb.Append($"{i+1},{stats.Best},{stats.Worst},{stats.Average.ToString("0.00", CultureInfo.InvariantCulture)}\n");
+                sb.Append($"{i+1},{stats.Best},{stats.Worst},{stats.Average.ToString("0.00", CultureInfo.InvariantCulture)},{stats.Std.ToString("0.00", CultureInfo.InvariantCulture)}\n");
             }
 
             File.WriteAllText(path, sb.ToString());

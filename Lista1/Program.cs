@@ -3,15 +3,16 @@ using Lista1.Managers;
 using Lista1.Models;
 using Lista1.Operators;
 using System.Text.Json;
+using Lista1.Extensions;
 
 namespace Lista1
 {
     public class Program
     {
-        const int maxRoundsWithoutProgress = 150;
+        const int maxRoundsWithoutProgress = 50;
 
-        const int populationSize = 50;
-        const int subPopulationSize = 300;
+        const int populationSize = 200;
+        const int subPopulationSize = 1200;
         const int dimX = 5;
         const int dimY = 6;
         const int machinesCount = 24;
@@ -23,7 +24,7 @@ namespace Lista1
         const int maxTournamentChampions = 3;
         const int treshold = 0;
 
-        private int tournamentSize = subPopulationSize / populationSize;
+        private int tournamentSize = 20;
 
         private IInitializationOperator initializationOperator;
         private ICrossoverOperator crossoverOperator;
@@ -38,8 +39,8 @@ namespace Lista1
         {
             reportManager = new TextFileReportManager();
             //annealingManager = new LinearAnnealingManager(rounds, maxTournamentChampions);
-            //eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
-            eveluationOperator = new PaddingDistanceEvaluation(ReadFlowCostData(), ReadMachinesPadding(), machinesCount, baseDistance);
+            eveluationOperator = new ManhattanDistanceEvaluation(ReadFlowCostData(), machinesCount);
+            //eveluationOperator = new PaddingDistanceEvaluation(ReadFlowCostData(), ReadMachinesPadding(), machinesCount, baseDistance);
             initializationOperator = new InitializationOperator();
             crossoverOperator = new CascadeCrossoverOperator(machinesCount, crossProbability);
             reproductionOperator = new RandomReproductionOperator(crossoverOperator);
@@ -54,8 +55,8 @@ namespace Lista1
             mutationManager.RegisterOperator(new ReverseColumnMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
             mutationManager.RegisterOperator(new ReverseRowMutation(), 1, dimX, dimY, machinesCount); // odrócenie kolumny
 
-            selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
-            //selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
+            //selectionOperator = new SimpleTournamentSelectionOperator(eveluationOperator, tournamentSize);
+            selectionOperator = new RouletteSelectionOperator(eveluationOperator, (int)Math.Round(populationSize * eliteSize));
         }
 
         private void Run(Report report)
@@ -102,6 +103,11 @@ namespace Lista1
             report.Time = DateTime.Now - startTime;
             report.MutationOperatorsInfo = mutationManager.GetOparatorsInfo();
 
+            if (!report.RoundStats.Any())
+            {
+                CollectStatis(population, report, round);
+            }
+
             var resutBest = report.RoundStats.LastOrDefault()?.Best;
             report.BestMember = population.First(m => eveluationOperator.Evaluate(m) == resutBest);
             reportManager.Save(report);
@@ -146,10 +152,11 @@ namespace Lista1
             double bestResult = population.Min(eveluationOperator.Evaluate);
             double worstResult = population.Max(eveluationOperator.Evaluate);
             double averageResult = population.Average(eveluationOperator.Evaluate);
+            double std = population.StdDev(m => eveluationOperator.Evaluate(m));
 
-            report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult });
+            report.RoundStats.Add(new RoundStats { Best = bestResult, Worst = worstResult, Average = averageResult, Std = std });
 
-            Console.WriteLine($"Round {round}: best = {bestResult}, worst = {worstResult}, average = {averageResult}");
+            Console.WriteLine($"Round {round}: best = {bestResult}, worst = {worstResult}, average = {averageResult}, std = {std}");
             return bestResult;
         }
 
